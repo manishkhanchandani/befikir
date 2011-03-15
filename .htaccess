@@ -1,0 +1,7 @@
+RewriteEngine on
+Options +FollowSymLinks 
+
+RewriteCond $1 !^(SpryAssets|js|css|images|files|(.*)\.php|docs)
+RewriteRule ^(.*)$ index.php/$1 [L,NS]
+
+RewriteRule ^index.php$ /$1 [R]
