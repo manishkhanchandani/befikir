@@ -1,92 +1,103 @@
 <script src="<?php echo BASE_URL; ?>SpryAssets/SpryRating.js" type="text/javascript"></script>
 <link href="<?php echo BASE_URL; ?>SpryAssets/SpryRating.css" rel="stylesheet" type="text/css" />
+<p>Copy this link to share on facebook: "<?php echo BASE_URL.'ratings/view/'.$code; ?>"</p>
+<?php if (!empty($error)) { ?><p class="error"><?php echo $error; ?></p><?php } ?>
 <form method="get" name="form1" action="">
 <table width="100%" border="0" cellpadding="5" cellspacing="0">
 	<tr>
-		<td width="100" align="right"><strong>Qualities</strong></td>
-		<td><strong>Rate</strong></td>
+		<td width="100" align="right" valign="top"><strong>Qualities</strong></td>
+		<td valign="top"><strong>Rate</strong></td>
 		<td width="250" rowspan="11" valign="top"><table border="0" cellspacing="0" cellpadding="5">
 			<?php if (!empty($profile->profile_pic)) { ?>
 			<tr>
-				<td><img src="<?php echo $profile->profile_pic; ?>" /></td>
+				<td valign="top"><img src="<?php echo $profile->profile_pic; ?>" /></td>
 			</tr>
 			<?php } ?>
 			<?php if (!empty($profile->name)) { ?>
 			<tr>
-				<td><strong>Name:</strong> <?php echo $profile->name; ?></td>
+				<td valign="top"><strong>Name:</strong> <?php echo $profile->name; ?></td>
 			</tr>
 			<?php } ?>
 			<?php if (!empty($profile->gender)) { ?>
 			<tr>
-				<td><strong>Gender:</strong> <?php echo $profile->gender; ?></td>
+				<td valign="top"><strong>Gender:</strong> <?php echo $profile->gender; ?></td>
 			</tr>
 			<?php } ?>
 			<?php if (!empty($profile->location)) { ?>
 			<tr>
-				<td><strong>Location:</strong> <?php echo $profile->location; ?></td>
+				<td valign="top"><strong>Location:</strong> <?php echo $profile->location; ?></td>
 			</tr>
 			<?php } ?>
+			<?php if ($this->session->userdata('token')) { ?>
+			<tr>
+				<td valign="top"><a href="<?php echo BASE_URL.'ratings/view/'.$code.'?post=1'; ?>"><img src="http://static.ak.facebook.com/images/share/facebook_share_icon.gif" alt="Facebook" /> Share On Facebook</a></td>
+			</tr>
+			<?php } else { ?>
+			<tr>
+				<td valign="top"><?php echo sharefacebook(BASE_URL.'ratings/view/'.$code, 'icon', 'Share on Facebook'); ?></td>
+			</tr>
+			
+			<?php } ?>
 		</table></td>
-	</tr>
-	<tr>
+	</tr>	<tr valign="top">
 		<td align="right">Loving</td>
 		<td>
 			<span id="spryrating1">
-			<input type="text" name="loving" id="loving" value="" />
-			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
+			<input type="text" name="loving" id="loving" value="<?php echo !empty($ratings->loving) ? $ratings->loving: 0; ?>" />
+			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingReadOnlyErrMsg">Rating is disabled</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Patience</td>
 		<td><span id="spryrating2">
-			<input type="text" name="patience" id="patience" value="" />
+			<input type="text" name="patience" id="patience" value="<?php echo !empty($ratings->patience) ? $ratings->patience : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Listens</td>
 		<td><span id="spryrating3">
-			<input type="text" name="listens" id="listens" value="" />
+			<input type="text" name="listens" id="listens" value="<?php echo !empty($ratings->listens) ? $ratings->listens : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Caring</td>
 		<td><span id="spryrating4">
-			<input type="text" name="caring" id="caring" value="" />
+			<input type="text" name="caring" id="caring" value="<?php echo !empty($ratings->caring) ? $ratings->caring : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Honesty</td>
 		<td><span id="spryrating5">
-			<input type="text" name="honesty" id="honesty" value="" />
+			<input type="text" name="honesty" id="honesty" value="<?php echo !empty($ratings->honesty) ? $ratings->honesty : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Peacefullness</td>
 		<td><span id="spryrating6">
-			<input type="text" name="peacefullness" id="peacefullness" value="" />
+			<input type="text" name="peacefullness" id="peacefullness" value="<?php echo !empty($ratings->peacefullness) ? $ratings->peacefullness : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Humor</td>
 		<td><span id="spryrating7">
-			<input type="text" name="humor" id="humor" value="" />
+			<input type="text" name="humor" id="humor" value="<?php echo !empty($ratings->humor) ? $ratings->humor : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Joyful</td>
 		<td><span id="spryrating8">
-			<input type="text" name="joyful" id="joyful" value="" />
+			<input type="text" name="joyful" id="joyful" value="<?php echo !empty($ratings->joyful) ? $ratings->joyful : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Faithfull</td>
 		<td><span id="spryrating9">
-			<input type="text" name="faithfull" id="faithfull" value="" />
+			<input type="text" name="faithfull" id="faithfull" value="<?php echo !empty($ratings->faithfull) ? $ratings->faithfull : 0; ?>" />
 			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
-	<tr>
+	<tr valign="top">
 		<td align="right">Humility</td>
 		<td><span id="spryrating10">
-			<input type="text" name="humility" id="humility" value="" />
+			<input type="text" name="humility" id="humility" value="<?php echo !empty($ratings->humility) ? $ratings->humility : 0; ?>" />
 			<span class="ratingButton" tabindex="0"></span><span class="ratingButton" tabindex="1"></span><span class="ratingButton" tabindex="2"></span><span class="ratingButton" tabindex="3"></span><span class="ratingButton" tabindex="4"></span><span class="ratingButton" tabindex="5"></span><span class="ratingButton" tabindex="6"></span><span class="ratingButton" tabindex="7"></span><span class="ratingButton" tabindex="8"></span><span class="ratingButton" tabindex="9"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingCounter"></span></span></td>
 	</tr>
 </table>
@@ -114,4 +125,17 @@ myObs.onServerUpdate = function(obj, req){
 		spryrating2.setValue(returnVal, true);
 	}
 }*/
+</script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-22090117-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
 </script>

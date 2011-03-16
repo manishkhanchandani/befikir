@@ -39,6 +39,7 @@ define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 define('FACEBOOK_CONNECT_ID', 1);
 define('OPENID_CONNECT_ID', 2);
 define('TWITTER_CONNECT_ID', 3);
+define('IP_CONNECT_ID', 4);
 define('DEFAULT_TITLE', 'Default Title');
 define('SITE_NOT_READY', 'Site Not Ready');
 /* End of file constants.php */

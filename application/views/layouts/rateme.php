@@ -14,15 +14,14 @@
 <h2><?php if (isset($pageTitle)) { ?><?php echo $pageTitle; ?><?php } else { echo DEFAULT_TITLE; } ?></h2>
 <?php echo $content_for_layout; ?>
 </div>
-<div id="menu"> 
-<h2>Site Navigation</h2>
+<div id="menu">
 <ul>
-	<li><a href="<?php echo BASE_URL; ?>" class="first">Home</a></li>
-	<?php if (!$this->session->userdata('uid')) { ?>
-		<li class="current_page_item"><a href="<?php echo BASE_URL; ?>users/fblogin">Login</a></li>
+	<?php if (!$this->session->userdata('uid') || $this->session->userdata('ipuser') == 1) { ?>
+		<li class="current_page_item"><a href="<?php echo BASE_URL; ?>users/fblogin">Login Here To Create Your Test</a></li>
 	<?php } else { ?>
-		<li><a href="<?php echo BASE_URL; ?>ratings/create">View My Test</a></li>
-		<li><a href="<?php echo BASE_URL; ?>ratings/results">View Results of My Test</a></li>
+		<li>Welcome, <strong><?php echo $this->session->userdata('name'); ?></strong></li>
+		<li><a href="<?php echo BASE_URL; ?>ratings/create">My Test</a></li>
+		<li><a href="<?php echo BASE_URL; ?>ratings/results">Results of My Test</a></li>
 		<li><a href="<?php echo BASE_URL; ?>users/logout">Logout</a></li>
 	<?php } ?>
 </ul>

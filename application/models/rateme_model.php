@@ -54,6 +54,30 @@ class Rateme_model extends CI_Model
 		return $result_array;
 	}
 
+	public function get_user_code_details($uid)
+	{
+		if (empty($uid)) {
+			return false;
+		}
+
+		$sql = "select * from rateme_test as r LEFT JOIN users as u ON r.uid = u.uid WHERE u.uid = ?";
+		$result = $this->db->query($sql, array($uid));
+		$result_array = $result->row();
+		return $result_array;
+	}
+
+	public function get_rating($id)
+	{
+		if (empty($id)) {
+			return false;
+		}
+
+		$sql = "select sum(loving)/count(loving) as loving, sum(patience)/count(patience) as patience, sum(listens)/count(listens) as listens, sum(caring)/count(caring) as caring, sum(honesty)/count(honesty) as honesty, sum(peacefullness)/count(peacefullness) as peacefullness, sum(humor)/count(humor) as humor, sum(joyful)/count(joyful) as joyful, sum(faithfull)/count(faithfull) as faithfull, sum(humility)/count(humility) as humility, count(rateme_test_id) as total_votes from rateme_results as r WHERE r.rateme_test_id = ? GROUP BY r.rateme_test_id";
+		$result = $this->db->query($sql, array($id));
+		$result_array = $result->row();
+		return $result_array;
+	}
+
 	public function validate_test($uid)
 	{
 		$sql = "select * from rateme_test where uid = ? and site_id = ?";
@@ -79,39 +103,27 @@ class Rateme_model extends CI_Model
 		$sql = "select * from rateme_test as t LEFT JOIN rateme_results as r ON t.rateme_test_id  = r.rateme_test_id WHERE t.activation = ? AND r.rateby_uid = ?";
 		$result = $this->db->query($sql, array($code, $uid));
 		$result_array = $result->row();
-		pr($result_array);
 		return $result_array;
 	}
 
-	public function postfb()
+	public function postfb($params=array())
 	{
 		$url = "https://graph.facebook.com/me/feed"; // URL
-	$params['access_token'] = $token;
-	$params['message'] = 'Sample message is posted on '.date('r');
-	$params['link'] = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
-	$params['picture'] = 'http://women.cs.cmu.edu/Who/Alumnae/photos/aparna.jpg';
-	$params['name'] = 'Naveen Name';
-	$params['caption'] = 'My Caption';
-	$params['description'] = 'Description is here. how are you.';
-	$params['actions'] = json_encode(array('name'=>'View on Live', 'link'=>$page));
-	//$params['privacy'] = $_POST['privacy'];
-	$POSTFIELDS = http_build_query($params);
-	$ch = curl_init();// Initialize a CURL session.     
-	curl_setopt($ch, CURLOPT_URL, $url);  // The URL to fetch. You can also set this when initializing a session with curl_init(). 
-	curl_setopt($ch, CURLOPT_POST, 1); //TRUE to do a regular HTTP POST. This POST is the normal application/x-www-form-urlencoded kind, most commonly used by HTML forms. 
-	curl_setopt($ch, CURLOPT_POSTFIELDS,$POSTFIELDS); //The full data to post in a HTTP "POST" operation. 
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  // TRUE to return the transfer as a string of the return value of curl_exec() instead of outputting it out directly. 
-	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1); // TRUE to follow any "Location: " header that the server sends as part of the HTTP header (note this is recursive, PHP will follow as many "Location: " headers that it is sent, unless CURLOPT_MAXREDIRS is set). 
-	
-	$result = curl_exec($ch);  // grab URL and pass it to the variable.
-	curl_close($ch);  // close curl resource, and free up system resources.
-	
-	$ret = json_decode($result); // Print page contents.
-	if ($ret->id) {
-		echo 'Sample Message Posted on your wall';
-	} else {
-		echo $ret->error->message;
-	}
+		$POSTFIELDS = http_build_query($params);
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS,$POSTFIELDS);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		$result = curl_exec($ch);
+		curl_close($ch);
+		$ret = json_decode($result);
+		if ($ret->id) {
+			return false;
+		} else {
+			return $ret->error->message;
+		}
 	}
 
 }
