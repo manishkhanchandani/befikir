@@ -10,7 +10,7 @@ font-family: Verdana, Arial, SunSans-Regular, Sans-Serif;
 color:#564b47;
 }
 a {
-color: #ff66cc;
+	color: #00F;
 font-size: 11px;
 background-color:transparent;
 text-decoration: none;
@@ -23,10 +23,14 @@ font-family: Courier, Monaco, Monospace;
 }
 h1 {
 font-size:14px;
-padding-top:50px;
+padding-top:20px;
 text-transform:uppercase;
 color: #564b47;
 background-color: transparent;
+}
+h1 a {
+color: #ff66cc;
+	font-size:28px;
 }
 p,h1,pre {
 margin:0px 30px 10px 30px;
@@ -40,10 +44,19 @@ background:#fff;
 border-right:2px solid #564b47;
 border-bottom:2px solid #564b47;
 margin-right:15px;
+margin-left:10px;
+padding:5px;
+min-height: 200px;
 }
 #menu {
 }
 #menu p {
 font-size:11px;
 margin-left:0px;/* fuer den geliebten ie */
+}
+#menu ul {
+	list-style-type: none;
+}
+#menu ul li {
+	
 }

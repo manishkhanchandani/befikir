@@ -11,7 +11,7 @@ class Users extends MY_Controller
 
 	function index()
 	{
-		
+		$this->fblogin();
 	}
 
 	protected function fblogin_code($page)
@@ -53,16 +53,27 @@ class Users extends MY_Controller
 
 	public function fblogin()
 	{
+		if (!empty($_GET['redirectURL'])) {
+			$this->session->set_userdata('redirectURL', $_GET['redirectURL']);
+		}
+
 		$data = array();
+		$data['pageTitle'] = 'Login';
 		$page = BASE_URL."users/fblogin";
-		if ($this->session->userdata('uid')) {
-			redirect(BASE_URL.'welcome/profile');
+		if ($this->session->userdata('uid') && $this->session->userdata('iptest') != 1) {
+			//$this->layout->view('users/success_login', $data);
+			//return;
 		}
 
 		if (isset($_GET['code'])){
 			try {
 				$this->fblogin_code($page);
-				redirect(BASE_URL.'welcome/profile');
+				if ($this->session->userdata('redirectURL')) {
+					redirect($this->session->userdata('redirectURL'));
+				}
+
+				$this->layout->view('users/success_login', $data);
+				return;
 			} catch (Exception $e) {
 				$data['error'] = $e->getMessage();
 			}
@@ -73,11 +84,7 @@ class Users extends MY_Controller
 
 	public function login()
 	{
-		if ($this->session->userdata('uid')) {
-			redirect(BASE_URL.'welcome/profile');
-		}
-
-		$data = array('pageTitle' => 'Login');
+		$data['pageTitle'] = 'Login';
 		if ($this->input->post('MM_Insert') === 'formLogin') {
 			try {
 				print_r($_POST);
@@ -86,10 +93,9 @@ class Users extends MY_Controller
 				}
 
 				$return = $this->Users_model->login_user($ret);
-				print_r($return);
-				exit;
 				$this->session->set_userdata($return);
-				redirect(BASE_URL.'welcome/profile');
+				$this->layout->view('users/success_login');
+				return;
 			} catch (Exception $e) {
 				$data['error'] = $e->getMessage();
 			}
@@ -128,7 +134,8 @@ class Users extends MY_Controller
 				}
 
 				$this->session->set_userdata($return);
-				redirect(BASE_URL.'welcome/profile');
+				$this->layout->view('users/success_login');
+				return;
 			} catch (Exception $e) {
 				$data['error'] = $e->getMessage();
 			}
@@ -140,7 +147,7 @@ class Users extends MY_Controller
 
 	public function register()
 	{
-		$data = array('pageTitle' => 'Register New User');
+		$data['pageTitle'] = 'Register New User';
 		if ($this->input->post('MM_Insert') === 'formRegister') {
 			try {
 				foreach ($_POST as $k => $v) {
@@ -152,7 +159,8 @@ class Users extends MY_Controller
 					throw new Exception('Could not register');
 				}
 				$this->session->set_userdata($return);
-				redirect(BASE_URL.'welcome/profile');
+				$this->layout->view('users/success_register');
+				return;
 			} catch (Exception $e) {
 				$data['error'] = $e->getMessage();
 			}
@@ -163,9 +171,10 @@ class Users extends MY_Controller
 
 	public function logout()
 	{
-		$array_items = array('uid' => '', 'username' => '', 'name' => '', 'email' => '', 'id' => '', 'gender' => '', 'timezone' => '', 'location' => '', 'lastlogin' => '', 'pic' => '');
+		$data['pageTitle'] = 'Logout';
+		$array_items = array('uid' => '', 'username' => '', 'name' => '', 'email' => '', 'id' => '', 'gender' => '', 'timezone' => '', 'location' => '', 'lastlogin' => '', 'pic' => '', 'ipuser' => 0);
 		$this->session->unset_userdata($array_items);
-		redirect(BASE_URL.'users/login');
+		$this->layout->view('users/success_logout', $data);
 	}
 }
 
