@@ -1,0 +1,1 @@
+<p>You are successfully registerd and logged on our site.</p>
