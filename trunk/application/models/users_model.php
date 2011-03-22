@@ -60,7 +60,7 @@ class Users_model extends CI_Model
 			$this->db->query($sql, array($data['email'], date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), $data['name'], 'https://graph.facebook.com/'.$data['id'].'/picture?type=large', $dob, $data['gender'], $data['timezone'], $data['location']['name'], SITE_ID));
 			$id = $this->db->insert_id();
 			$this->load->library('Ipsniffing');
-			$retObj = $this->ipsniffing->sniffIP($remote_addr);
+			$retObj = $this->ipsniffing->sniffIP($_SERVER['REMOTE_ADDR']);
 			$data['locationfinder'] = $retObj;
 			$extras = serialize($data);
 			$sql = "insert into users_connect set uid = ?, connect_type_id = ?, access_token = ?, extras = ?, connection_name = ?, site_id = ?";

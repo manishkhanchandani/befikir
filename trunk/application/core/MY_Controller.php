@@ -45,10 +45,13 @@ class MY_Controller extends CI_Controller
 	protected function set_site_details()
 	{
 		$siteIds = array(
-		'http://core.10000projects.info/befikir/' => array('id' => 1, 'name' => 'Befikir', 'template' => 'befikir', 'url' => 'http://core.10000projects.info/befikir/', 'fbappid' => '466812640509', 'fbappsecret' => '974720da044742624842eda25d8def56', 'fbappkey' => '969ef79d60703de08b50cf09f4da4285', 'default_controller' => ''), 
-		'http://homoeopathy.10000projects.info/' => array('id' => 2, 'name' => 'Homoeopathy', 'template' => 'homoeopathy', 'url' => 'http://homoeopathy.10000projects.info/', 'fbappid' => '466812640509', 'fbappsecret' => '974720da044742624842eda25d8def56', 'fbappkey' => '969ef79d60703de08b50cf09f4da4285', 'default_controller' => ''), 
-		'http://detective.10000projects.info/' => array('id' => 3, 'name' => 'Detective', 'template' => 'detective', 'url' => 'http://detective.10000projects.info/', 'fbappid' => '466812640509', 'fbappsecret' => '974720da044742624842eda25d8def56', 'fbappkey' => '969ef79d60703de08b50cf09f4da4285', 'default_controller' => ''),
-		'http://rateme.co.in/' => array('id' => 4, 'name' => 'Rate Me', 'template' => 'rateme', 'url' => 'http://www.rateme.co.in/', 'fbappid' => '199968910028088', 'fbappsecret' => 'eb4fd0cec5ecba69e472c8b47d67df68', 'fbappkey' => 'bb3c73a03887322d5347a021ec4986d6', 'default_controller' => 'ratings'),
+		'http://core.10000projects.info/befikir/' => array('id' => 1, 'name' => 'Befikir', 'template' => 'befikir', 'url' => 'http://core.10000projects.info/befikir/', 'fbappid' => '466812640509', 'fbappsecret' => '974720da044742624842eda25d8def56', 'fbappkey' => '969ef79d60703de08b50cf09f4da4285', 'default_controller' => '', 'email' => 'noreply@core.10000projects.info'), 
+
+		'http://homoeopathy.10000projects.info/' => array('id' => 2, 'name' => 'Homoeopathy', 'template' => 'homoeopathy', 'url' => 'http://homoeopathy.10000projects.info/', 'fbappid' => '466812640509', 'fbappsecret' => '974720da044742624842eda25d8def56', 'fbappkey' => '969ef79d60703de08b50cf09f4da4285', 'default_controller' => '', 'email' => 'noreply@core.10000projects.info'), 
+
+		'http://detective.10000projects.info/' => array('id' => 3, 'name' => 'Detective', 'template' => 'detective', 'url' => 'http://detective.10000projects.info/', 'fbappid' => '466812640509', 'fbappsecret' => '974720da044742624842eda25d8def56', 'fbappkey' => '969ef79d60703de08b50cf09f4da4285', 'default_controller' => '', 'email' => 'noreply@core.10000projects.info'),
+
+		'http://rateme.co.in/' => array('id' => 4, 'name' => 'Rate Me', 'template' => 'rateme', 'url' => 'http://www.rateme.co.in/', 'fbappid' => '199968910028088', 'fbappsecret' => 'eb4fd0cec5ecba69e472c8b47d67df68', 'fbappkey' => 'bb3c73a03887322d5347a021ec4986d6', 'default_controller' => 'ratings', 'email' => 'noreply@rateme.co.in'),
 		);
 
 		$currentUrl = str_replace('www.', '', BASE_URL);
@@ -66,6 +69,7 @@ class MY_Controller extends CI_Controller
 		define('SITE_ID', $siteIds[$currentUrl]['id']);
 		define('SITE_NAME', $siteIds[$currentUrl]['name']);
 		define('SITE_TEMPLATE', $siteIds[$currentUrl]['template']);
+		define('SITE_EMAIL', $siteIds[$currentUrl]['email']);
 		define('FB_APP_ID', $siteIds[$currentUrl]['fbappid']);
 		define('FB_APP_KEY', $siteIds[$currentUrl]['fbappkey']);
 		define('FB_APP_SECRET', $siteIds[$currentUrl]['fbappsecret']);
