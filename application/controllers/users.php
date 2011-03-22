@@ -176,6 +176,60 @@ class Users extends MY_Controller
 		$this->session->unset_userdata($array_items);
 		$this->layout->view('users/success_logout', $data);
 	}
+
+	public function twitter()
+	{
+		$this->load->library('tweet');
+		$this->tweet->enable_debug(TRUE);
+		// If you already have a token saved for your user
+		// (In a db for example) - See line #37
+		//
+		// You can set these tokens before calling logged_in to try using the existing tokens.
+		// $tokens = array('oauth_token' => 'foo', 'oauth_token_secret' => 'bar');
+		// $this->tweet->set_tokens($tokens);
+		if (!$this->tweet->logged_in()) {
+			// This is where the url will go to after auth.
+			$this->tweet->set_callback(BASE_URL.'users/twitter_auth');
+			$this->tweet->login();
+		} else {
+			// You can get the tokens for the active logged in user:
+			$tokens = $this->tweet->get_tokens();
+			pr($tokens);
+			//
+			// These can be saved in a db alongside a user record
+			// if you already have your own auth system.
+		}
+
+	}
+
+	public function twitter_auth()
+	{
+		$this->load->library('tweet');
+		pr($_GET);
+		$tokens = $this->tweet->get_tokens();
+		pr($tokens);
+		// $user = $this->tweet->call('get', 'account/verify_credentiaaaaaaaaals');
+		// 
+		// Will throw an error with a stacktrace.
+		$user = $this->tweet->call('get', 'account/verify_credentials');
+		pr($user);
+		$friendship = $this->tweet->call('get', 'friendships/show', array('source_screen_name' => $user->screen_name, 'target_screen_name' => 'likelist'));
+		pr($friendship);
+		if ( $friendship->relationship->target->following === FALSE ) {
+			echo 'inside';
+			$this->tweet->call('post', 'friendships/create', array('screen_name' => $friendship->relationship->target->screen_name, 'follow' => TRUE));
+		}
+exit;
+		$this->tweet->call('post', 'statuses/update', array('status' => 'Testing #CodeIgniter Twitter library'));
+
+		$options = array(
+					'count' => 10,
+					'page' => 2,
+					'include_entities' => 1
+		);
+		$timeline = $this->tweet->call('get', 'statuses/home_timeline');
+		pr($timeline);
+	}
 }
 
 /* End of file welcome.php */

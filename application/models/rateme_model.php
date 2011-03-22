@@ -39,6 +39,17 @@ class Rateme_model extends CI_Model
 
 		$sql = "insert into rateme_results (rateme_test_id, rateby_uid, site_id, ".$type.", created_date, updated_date) VALUES ('".$data->rateme_test_id."', '".$uid."', '".SITE_ID."', '".$val."', '".date('Y-m-d H:i:s')."', '".date('Y-m-d H:i:s')."') ON DUPLICATE KEY UPDATE ".$type." = '".$val."', updated_date = '".date('Y-m-d H:i:s')."'";
 		$result = $this->db->query($sql);
+		//send email to owner
+		/*$this->load->library('email');
+
+		$this->email->from(SITE_EMAIL, 'Rate Me');
+		$this->email->to($data->email); 
+		//$this->email->cc('another@another-example.com'); 
+		//$this->email->bcc('them@their-example.com'); 
+		$this->email->subject('New Rating Received.');
+		$this->email->message('Your fan has given you a rating of "'.$val.'" for your quality "'.$type.'". You can view your test result at '.BASE_URL.'ratings/results or you can view your test at '.BASE_URL.'ratings/view/'.$data->activation);
+
+		$this->email->send();*/
 		return true;
 	}
 
@@ -72,7 +83,7 @@ class Rateme_model extends CI_Model
 			return false;
 		}
 
-		$sql = "select sum(loving)/count(loving) as loving, sum(patience)/count(patience) as patience, sum(listens)/count(listens) as listens, sum(caring)/count(caring) as caring, sum(honesty)/count(honesty) as honesty, sum(peacefullness)/count(peacefullness) as peacefullness, sum(humor)/count(humor) as humor, sum(joyful)/count(joyful) as joyful, sum(faithfull)/count(faithfull) as faithfull, sum(humility)/count(humility) as humility, count(rateme_test_id) as total_votes from rateme_results as r WHERE r.rateme_test_id = ? GROUP BY r.rateme_test_id";
+		$sql = "select sum(loving)/count(loving) as loving, sum(patience)/count(patience) as patience, sum(listens)/count(listens) as listens, sum(caring)/count(caring) as caring, sum(honesty)/count(honesty) as honesty, sum(peacefullness)/count(peacefullness) as peacefullness, sum(humor)/count(humor) as humor, sum(joyful)/count(joyful) as joyful, sum(faithfull)/count(faithfull) as faithfull, sum(humility)/count(humility) as humility, sum(looks)/count(looks) as looks, sum(weight)/count(weight) as weight, sum(height)/count(height) as height, sum(charcter)/count(charcter) as charcter, count(rateme_test_id) as total_votes from rateme_results as r WHERE r.rateme_test_id = ? GROUP BY r.rateme_test_id";
 		$result = $this->db->query($sql, array($id));
 		$result_array = $result->row();
 		return $result_array;

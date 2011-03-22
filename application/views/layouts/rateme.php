@@ -17,7 +17,8 @@
 <div id="menu">
 <ul>
 	<?php if (!$this->session->userdata('uid') || $this->session->userdata('ipuser') == 1) { ?>
-		<li class="current_page_item"><a href="<?php echo BASE_URL; ?>users/fblogin">Login Here To Create Your Test</a></li>
+		<li class="current_page_item"><a href="<?php echo BASE_URL; ?>users/fblogin">Login Here To Create Your Test</a><br /><br /><br /></li>
+		<li>Note: <strong>Gift prize of $100 cash</strong> will be given to the person who will get highest number of vote count. So if a person "A" has been voted by 100 person and person "B" has been voted by 110 person then person "B" will win. Prize will be declared on April 30, 2011.</li>
 	<?php } else { ?>
 		<li>Welcome, <strong><?php echo $this->session->userdata('name'); ?></strong></li>
 		<li><a href="<?php echo BASE_URL; ?>ratings/create">My Test</a></li>

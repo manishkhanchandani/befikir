@@ -5,7 +5,7 @@
 <form method="get" name="form1" action="">
 <table width="100%" border="0" cellpadding="5" cellspacing="0">
 	<tr>
-		<td width="100" align="right" valign="top"><strong>Qualities</strong></td>
+		<td width="300" align="right" valign="top"><strong>Qualities</strong></td>
 		<td valign="top"><strong>Rate</strong></td>
 		<td width="250" rowspan="11" valign="top"><table border="0" cellspacing="0" cellpadding="5">
 			<?php if (!empty($profile->profile_pic)) { ?>
@@ -39,7 +39,22 @@
 			
 			<?php } ?>
 		</table></td>
-	</tr>	<tr valign="top">
+	</tr>
+	<tr valign="top">
+		<td align="right">Looks<br />Looks good (10 points), looks bad (1 point)</td>
+		<td>
+			<span id="spryrating11">
+			<input type="text" name="looks" id="looks" value="<?php echo !empty($ratings->looks) ? $ratings->looks: 0; ?>" />
+			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingReadOnlyErrMsg">Rating is disabled</span><span class="ratingCounter"></span></span></td>
+	</tr>
+	<tr valign="top">
+		<td align="right">Weight<br />Overweight (10 points), Underweight (1 point)</td>
+		<td>
+			<span id="spryrating12">
+			<input type="text" name="weight" id="weight" value="<?php echo !empty($ratings->weight) ? $ratings->weight: 0; ?>" />
+			<span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span><span class="ratingButton"></span> <span class="ratingRatedMsg">Thank you for your vote!</span><span class="ratingReadOnlyErrMsg">Rating is disabled</span><span class="ratingCounter"></span></span></td>
+	</tr>
+	<tr valign="top">
 		<td align="right">Loving</td>
 		<td>
 			<span id="spryrating1">
@@ -115,6 +130,8 @@ var spryrating7 = new Spry.Widget.Rating("spryrating7", {ratingValueElement:"hum
 var spryrating8 = new Spry.Widget.Rating("spryrating8", {ratingValueElement:"joyful", saveUrl: BASE_URL+'ratings/updateRating?id=joyful&val=@@ratingValue@@&code='+code, counter: true});
 var spryrating9 = new Spry.Widget.Rating("spryrating9", {ratingValueElement:"faithfull", saveUrl: BASE_URL+'ratings/updateRating?id=faithfull&val=@@ratingValue@@&code='+code, counter: true});
 var spryrating10 = new Spry.Widget.Rating("spryrating10", {ratingValueElement:"humility", saveUrl: BASE_URL+'ratings/updateRating?id=humility&val=@@ratingValue@@&code='+code, counter: true});
+var spryrating11 = new Spry.Widget.Rating("spryrating11", {ratingValueElement:"looks", saveUrl: BASE_URL+'ratings/updateRating?id=looks&val=@@ratingValue@@&code='+code, counter: true});
+var spryrating12 = new Spry.Widget.Rating("spryrating12", {ratingValueElement:"weight", saveUrl: BASE_URL+'ratings/updateRating?id=weight&val=@@ratingValue@@&code='+code, counter: true});
 /*
 var myObs = {};
 spryrating1.addObserver(myObs);
